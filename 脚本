@@ -1,0 +1,10 @@
+#!/bin/bash
+while (($#));
+do
+cd /var/lib/libvirt/images/
+qemu-img create -f qcow2 -b node.qcow2 ${1}.img 20G
+cd /etc/libvirt/qemu
+sed 's,node,${1},' node.xml > ${1}.xml
+virsh define ${1}.xml
+shift
+done
